@@ -47,6 +47,9 @@ impl<'b, 'a: 'b> Module<'a> for MaxPool<'b> {
 
     fn backward (&mut self, delta: &Tensor) -> &Tensor {
 
+        // Fill delta with zeros
+        self.delta.fill(0.0);
+
         // Perform the Max Pool Backward Operation
         Tensor::max_pool_backward(self.input, &self.output, delta, &mut self.delta, self.stride, self.filter_size);
 

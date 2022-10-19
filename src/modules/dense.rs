@@ -4,7 +4,7 @@ use super::*;
 
 /// A Fully Connected Layer is a regular layer
 /// It performs O = I dot W + B
-pub struct FullyConnected<'b> {
+pub struct Dense<'b> {
     /// Holds the output of this layer in the Forward Step
     /// Found by the matrix multiplication of input x weight
     /// Batch Size x Layer Size.
@@ -35,7 +35,7 @@ pub struct FullyConnected<'b> {
     optim: Optim,
 }
 
-impl FullyConnected<'_> {
+impl Dense<'_> {
     pub fn new (prev_size: usize, this_size: usize, batch_size: usize, optim: Optim) -> Self {
         Self {
             output: Tensor::new_random(batch_size, this_size, 1, 1, (-0.3, 0.3), 0),
@@ -49,7 +49,7 @@ impl FullyConnected<'_> {
     }
 }
 
-impl<'b, 'a: 'b> Module<'a> for FullyConnected<'b> {
+impl<'b, 'a: 'b> Module<'a> for Dense<'b> {
     fn forward (&mut self, input: &'a Tensor) -> &Tensor {
         // Set the self.input variable for use next time
         self.input = input;

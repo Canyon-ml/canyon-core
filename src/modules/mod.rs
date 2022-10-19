@@ -10,7 +10,7 @@ pub trait Module<'a> {
     fn backward (&mut self, delta: &Tensor) -> &Tensor;
 }
 
-pub(crate) mod fully_conn; // ID 0
+pub(crate) mod dense; // ID 0
 pub(crate) mod conv;       // ID 1
 pub(crate) mod sigmoid;    // ID 2
 pub(crate) mod softmax;    // ID 3
@@ -21,7 +21,7 @@ pub(crate) mod elu;        // ID 7
 pub(crate) mod max_pool;   // ID 8
 pub(crate) mod flatten;    // ID 9
 
-pub use fully_conn::FullyConnected;
+pub use dense::Dense;
 pub use conv::Conv;
 pub use sigmoid::Sigmoid;
 pub use softmax::Softmax;
