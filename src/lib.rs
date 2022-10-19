@@ -1,5 +1,5 @@
 
-extern crate gtensor as gt;
+pub extern crate gtensor as gt;
 
 pub mod modules;
 pub mod optomizers;
