@@ -3,7 +3,7 @@
 use gt::Tensor;
 
 // - Local Includes - //
-use crate::Optim;
+use crate::optomizers::Optim;
 
 pub trait Module<'a> {
     fn forward  (&mut self, input: &'a Tensor) -> &Tensor;
@@ -33,6 +33,6 @@ pub use max_pool::MaxPool;
 pub use flatten::Flatten;
 
 /// A Dummy Variable used to initialize empty references
-static temp: &Tensor = &Tensor { 
+static TEMP: &Tensor = &Tensor { 
     data: Vec::new(), rows: 1, cols: 1, channels: 1, duration: 1, tag: 1 
 };
