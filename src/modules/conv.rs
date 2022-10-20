@@ -60,13 +60,13 @@ impl Conv<'_> {
             output: Tensor::new(
                 ((prev_size.0 - padding * 2) - kernel_size + 1) / stride,
                 ((prev_size.1 - padding * 2) - kernel_size + 1) / stride,
-                kernel_size * kernel_size * prev_size.2, batch_size, 10
+                kernel_size * kernel_size * prev_size.2, batch_size
             ),
             input: TEMP, 
-            del_w: Tensor::new(kernel_size, kernel_size, prev_size.2, batch_size, 12),
-            del_i: Tensor::new(prev_size.0, prev_size.1, prev_size.2, batch_size, 13),
-            kernel: Tensor::new_random(kernel_size, kernel_size, prev_size.2, num_filters, (-0.3, 0.3), 14),
-            bias: Tensor::new_random(1, 1, prev_size.2, 1, (-0.3, 0.3), 15),
+            del_w: Tensor::new(kernel_size, kernel_size, prev_size.2, batch_size),
+            del_i: Tensor::new(prev_size.0, prev_size.1, prev_size.2, batch_size),
+            kernel: Tensor::new_random(kernel_size, kernel_size, prev_size.2, num_filters, (-0.3, 0.3)),
+            bias: Tensor::new_random(1, 1, prev_size.2, 1, (-0.3, 0.3)),
             stride, padding, optim
         }
     }

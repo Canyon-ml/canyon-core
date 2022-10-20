@@ -51,7 +51,7 @@ dependencies = [
 [[package]]
 name = "gtensor"
 version = "0.6.2"
-source = "git+https://github.com/Soul-ML/gtensor.git#c6f19f7a22a2e0caf697fce77aa3c777a9203050"
+source = "git+https://github.com/Soul-ML/gtensor.git#427bd850860dce6119d2469b888398047cdfc862"
 dependencies = [
  "bmp",
  "fastrand",

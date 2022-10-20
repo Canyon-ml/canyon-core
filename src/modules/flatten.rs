@@ -9,8 +9,8 @@ pub struct Flatten {
 impl Flatten {
     pub fn new (prev_size: (usize, usize, usize), batch_size: usize) -> Self {
         Self {
-            output: Tensor::new(batch_size, prev_size.0 * prev_size.1 * prev_size.2, 1, 1, 90),
-            delta: Tensor::new(prev_size.0, prev_size.1, prev_size.2, batch_size, 91),
+            output: Tensor::new(batch_size, prev_size.0 * prev_size.1 * prev_size.2, 1, 1),
+            delta: Tensor::new(prev_size.0, prev_size.1, prev_size.2, batch_size),
         }
     }
 }

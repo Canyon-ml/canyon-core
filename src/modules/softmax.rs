@@ -10,10 +10,10 @@ pub struct Softmax {
 }
 
 impl Softmax {
-    pub fn new (prev_size: (usize, usize, usize)) -> Self {
+    pub fn new (prev_size: (usize, usize)) -> Self {
         Self {
-            output: Tensor::new(prev_size.0, prev_size.1, 1, 1, 50),
-            delta: Tensor::new(prev_size.0, prev_size.1, 1, 1, 51),
+            output: Tensor::from_shape((prev_size.0, prev_size.1, 1, 1)),
+            delta: Tensor::from_shape((prev_size.0, prev_size.1, 1, 1)),
         }
     }
 }

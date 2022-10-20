@@ -38,12 +38,12 @@ pub struct Dense<'b> {
 impl Dense<'_> {
     pub fn new (prev_size: usize, this_size: usize, batch_size: usize, optim: Optim) -> Self {
         Self {
-            output: Tensor::new_random(batch_size, this_size, 1, 1, (-0.3, 0.3), 0),
+            output: Tensor::new_random(batch_size, this_size, 1, 1, (-0.3, 0.3)),
             input: TEMP, // tag 1 - dummy variable for initializing empty references
-            del_w: Tensor::new(prev_size, this_size, 1, 1, 2),
-            del_i: Tensor::new(batch_size, prev_size, 1, 1, 3),
-            weight: Tensor::new(prev_size, this_size, 1, 1, 4),
-            bias: Tensor::new_random(1, this_size, 1, 1, (-0.3, 0.3), 6),
+            del_w: Tensor::new(prev_size, this_size, 1, 1),
+            del_i: Tensor::new(batch_size, prev_size, 1, 1),
+            weight: Tensor::new(prev_size, this_size, 1, 1),
+            bias: Tensor::new_random(1, this_size, 1, 1, (-0.3, 0.3)),
             optim
         }
     }

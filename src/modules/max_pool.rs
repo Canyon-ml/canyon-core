@@ -26,9 +26,9 @@ impl MaxPool<'_> {
             output: Tensor::new(
                 (prev_size.0 - (filter_size - 1)) / stride,
                 (prev_size.1 - (filter_size - 1)) / stride,
-                prev_size.2, batch_size, 50
+                prev_size.2, batch_size
             ),
-            delta: Tensor::new(prev_size.0, prev_size.1, prev_size.2, batch_size, 51),
+            delta: Tensor::new(prev_size.0, prev_size.1, prev_size.2, batch_size),
             input: TEMP, stride, filter_size,
         }
     }

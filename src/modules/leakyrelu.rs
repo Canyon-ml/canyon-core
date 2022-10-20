@@ -8,17 +8,17 @@ pub struct LeakyReLU {
 }
 
 impl LeakyReLU {
-    pub fn new4d (prev_size: (usize, usize, usize), batch_size: usize) -> Self {
+    pub fn new4d (prev_size: (usize, usize, usize, usize)) -> Self {
         Self {
-            output: Tensor::new(prev_size.0, prev_size.1, prev_size.2, batch_size, 30),
-            delta: Tensor::new(prev_size.0, prev_size.1, prev_size.2, batch_size, 31),
+            output: Tensor::new(prev_size.0, prev_size.1, prev_size.2, prev_size.3),
+            delta: Tensor::new(prev_size.0, prev_size.1, prev_size.2, prev_size.3),
         }
     }
 
     pub fn new2d (prev_size: (usize, usize)) -> Self {
         Self {
-            output: Tensor::new(prev_size.0, prev_size.1, 1, 1, 30),
-            delta: Tensor::new(prev_size.0, prev_size.1, 1, 1, 31),
+            output: Tensor::from_shape((prev_size.0, prev_size.1, 1, 1)),
+            delta: Tensor::from_shape((prev_size.0, prev_size.1, 1, 1)),
         }
     }
 }

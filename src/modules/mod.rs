@@ -6,20 +6,26 @@ use gt::Tensor;
 use crate::optomizers::Optim;
 
 pub trait Module<'a> {
+    /// The Forward Pass of a Module
+    /// Computes the output of the Module
     fn forward  (&mut self, input: &'a Tensor) -> &Tensor;
+
+    /// The Backward Pass of a Module
+    /// Computes the gradient of the Module
+    /// If this layer has them, update the trainable params. 
     fn backward (&mut self, delta: &Tensor) -> &Tensor;
 }
 
-pub(crate) mod dense; // ID 0
-pub(crate) mod conv;       // ID 1
-pub(crate) mod sigmoid;    // ID 2
-pub(crate) mod softmax;    // ID 3
-pub(crate) mod relu;       // ID 4
-pub(crate) mod tanh;       // ID 5
-pub(crate) mod leakyrelu;  // ID 6  
-pub(crate) mod elu;        // ID 7
-pub(crate) mod max_pool;   // ID 8
-pub(crate) mod flatten;    // ID 9
+pub(crate) mod dense;      
+pub(crate) mod conv;       
+pub(crate) mod sigmoid;    
+pub(crate) mod softmax;    
+pub(crate) mod relu;       
+pub(crate) mod tanh;       
+pub(crate) mod leakyrelu;    
+pub(crate) mod elu;        
+pub(crate) mod max_pool;   
+pub(crate) mod flatten;    
 
 pub use dense::Dense;
 pub use conv::Conv;
@@ -34,5 +40,5 @@ pub use flatten::Flatten;
 
 /// A Dummy Variable used to initialize empty references
 static TEMP: &Tensor = &Tensor { 
-    data: Vec::new(), rows: 1, cols: 1, channels: 1, duration: 1, tag: 1 
+    data: Vec::new(), rows: 1, cols: 1, channels: 1, duration: 1
 };
