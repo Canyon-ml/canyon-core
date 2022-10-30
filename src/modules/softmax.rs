@@ -18,8 +18,8 @@ impl Softmax {
     }
 }
 
-impl Module<'_> for Softmax {
-    fn forward <'a> (&mut self, input: &'a Tensor) -> &Tensor {
+impl Module for Softmax {
+    fn forward  (&mut self, input: &Tensor) -> &Tensor {
         for batch in 0..input.rows {
             let mut sum: f32 = 0.0;
             for col in 0..input.cols {

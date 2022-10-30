@@ -16,8 +16,8 @@ impl Sigmoid {
     }
 }
 
-impl Module<'_> for Sigmoid {
-    fn forward <'a> (&mut self, input: &'a Tensor) -> &Tensor {
+impl Module for Sigmoid {
+    fn forward  (&mut self, input: &Tensor) -> &Tensor {
         
         // Compute the Sigmoid of the Input Tensor. ( 1 / 1 + exp^-i )
         // Also compute the Derivative. ( sigmoid(i) * (1 - simgoid(i)) )

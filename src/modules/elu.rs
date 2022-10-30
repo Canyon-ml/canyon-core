@@ -16,8 +16,8 @@ impl ELU {
     }
 }
 
-impl Module<'_> for ELU {
-    fn forward <'a> (&mut self, input: &'a Tensor) -> &Tensor {
+impl Module for ELU {
+    fn forward (&mut self, input: &Tensor) -> &Tensor {
         // I: Input
         // O: self.output
         // A: self.aprime

@@ -16,8 +16,8 @@ impl ReLU {
     }
 }
 
-impl Module<'_> for ReLU {
-    fn forward <'a> (&mut self, input: &'a Tensor) -> &Tensor {
+impl Module for ReLU {
+    fn forward (&mut self, input: &Tensor) -> &Tensor {
         // I: Input
         // O: self.output
         // A: self.aprime

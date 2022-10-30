@@ -15,8 +15,8 @@ impl Flatten {
     }
 }
 
-impl Module<'_> for Flatten {
-    fn forward <'a> (&mut self, input: &'a Tensor) -> &Tensor {
+impl Module for Flatten {
+    fn forward  (&mut self, input: &Tensor) -> &Tensor {
         
         // Copy data into flattened Tensor
         Tensor::copy(input, &mut self.output);

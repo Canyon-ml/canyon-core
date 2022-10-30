@@ -1,10 +1,11 @@
 
+
 // Imports Module, Optim, and gT. 
 use super::*;
 
 /// A Fully Connected Layer is a regular layer
 /// It performs O = I dot W + B
-pub struct Dense<'b> {
+pub struct Dense {
     /// Holds the output of this layer in the Forward Step
     /// Found by the matrix multiplication of input x weight
     /// Batch Size x Layer Size.
@@ -21,7 +22,7 @@ pub struct Dense<'b> {
     /// The Output of the previous layer
     /// Stored here as a reference because we use it in the forward
     /// pass and the backward pass for computing the gradient. 
-    input: &'b Tensor,
+    input: Tensor,
 
     /// The Gradient with respect to the Weight
     /// Same size as Weight
@@ -35,14 +36,14 @@ pub struct Dense<'b> {
     optim: Optim,
 }
 
-impl Dense<'_> {
+impl Dense {
     /// - prev: (batch_size, prev_size) a.k.a. size of input.
     /// - size: The number of Neurons in this layer
     /// - optim: The Optomizer for this layer
     pub fn new (prev: (usize, usize), size: usize, optim: Optim) -> Self {
         Self {
             output: Tensor::new2d(prev.0, size),
-            input: TEMP, // tag 1 - dummy variable for initializing empty references
+            input: TEMP.clone(), // tag 1 - dummy variable for initializing empty references
             del_w: Tensor::new2d(prev.1, size),
             del_i: Tensor::new2d(prev.0, prev.1),
             weight: Tensor::new2d(prev.1, size),
@@ -52,14 +53,14 @@ impl Dense<'_> {
     }
 }
 
-impl<'b, 'a: 'b> Module<'a> for Dense<'b> {
-    fn forward (&mut self, input: &'a Tensor) -> &Tensor {
-        // Set the self.input variable for use next time
-        self.input = input;
+impl Module for Dense {
+    fn forward (&mut self, input: &Tensor) -> &Tensor{
+        // Clone the input for use in backwards step
+        self.input = input.clone();
 
         // MatMul the Input Matrix by the Weight Matrix to produce Output
         // (For each Neuron compute a line of n dimensions)
-        Tensor::multiply(false, input, false, &self.weight, &mut self.output);
+        Tensor::multiply(false, &self.input, false, &self.weight, &mut self.output);
 
         // Add the Bias to the Output Matrix
         // For each Neuron, add the base of the line computed.
@@ -74,10 +75,10 @@ impl<'b, 'a: 'b> Module<'a> for Dense<'b> {
         self.optim.optomize(&mut self.bias, delta);
 
         // Compute the Gradient with respect to the Weights - resulting del_w is the same size as the weight tensor
-        Tensor::multiply(true,&self.input, false, delta, &mut self.del_w);
+        Tensor::multiply(true,&self.input, false, &delta, &mut self.del_w);
 
         // Compute the Gradient with respect to the Input - Resulting Delta is the same size as previous layer
-        Tensor::multiply(false, delta, true,&mut self.weight, &mut self.del_i);
+        Tensor::multiply(false, &delta, true,&mut self.weight, &mut self.del_i);
 
         // Pass the weight tensor and delta for it to the optomizer
         self.optim.optomize(&mut self.weight, &self.del_w);

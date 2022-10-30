@@ -1,14 +1,16 @@
 
+use std::rc::Rc;
+
 // - gTensor Includes - //
 use gt::Tensor;
 
 // - Local Includes - //
 use crate::optomizers::Optim;
 
-pub trait Module<'a> {
+pub trait Module {
     /// The Forward Pass of a Module
     /// Computes the output of the Module
-    fn forward  (&mut self, input: &'a Tensor) -> &Tensor;
+    fn forward  (&mut self, input: &Tensor) -> &Tensor;
 
     /// The Backward Pass of a Module
     /// Computes the gradient of the Module
@@ -39,6 +41,6 @@ pub use max_pool::MaxPool;
 pub use flatten::Flatten;
 
 /// A Dummy Variable used to initialize empty references
-static TEMP: &Tensor = &Tensor { 
+static TEMP: Tensor = Tensor { 
     data: Vec::new(), rows: 1, cols: 1, channels: 1, duration: 1
 };

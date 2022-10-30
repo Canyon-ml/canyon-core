@@ -2,7 +2,7 @@
 // Import Module, gT
 use super::*;
 
-pub struct MaxPool<'b> {
+pub struct MaxPool {
     /// The Output for this Layer
     output: Tensor,
 
@@ -10,7 +10,7 @@ pub struct MaxPool<'b> {
     delta: Tensor,
 
     /// The Output of the Previous Layer
-    input: &'b Tensor,
+    input: Tensor,
 
     /// The Stride for the Pooling
     /// 0 is normal operation
@@ -20,7 +20,7 @@ pub struct MaxPool<'b> {
     filter_size: usize,
 }
 
-impl MaxPool<'_> {
+impl MaxPool {
     pub fn new (prev: (usize, usize, usize, usize), filter_size: usize, stride: usize) -> Self {
         Self {
             output: Tensor::new(
@@ -29,15 +29,15 @@ impl MaxPool<'_> {
                 prev.2, prev.3
             ),
             delta: Tensor::new(prev.0, prev.1, prev.2, prev.3),
-            input: TEMP, stride, filter_size,
+            input: TEMP.clone(), stride, filter_size,
         }
     }
 }
 
-impl<'b, 'a: 'b> Module<'a> for MaxPool<'b> {
-    fn forward (&mut self, input: &'a Tensor) -> &Tensor {
+impl Module for MaxPool {
+    fn forward  (&mut self, input: &Tensor) -> &Tensor {
         // Cache the Input for use in the backward pass
-        self.input = input;
+        self.input = input.clone();
 
         // Perform the Max Pool Forward operation. 
         Tensor::max_pool_forward(input, &mut self.output, self.stride, self.filter_size);
@@ -51,7 +51,7 @@ impl<'b, 'a: 'b> Module<'a> for MaxPool<'b> {
         self.delta.fill(0.0);
 
         // Perform the Max Pool Backward Operation
-        Tensor::max_pool_backward(self.input, &self.output, delta, &mut self.delta, self.stride, self.filter_size);
+        Tensor::max_pool_backward(&self.input, &self.output, delta, &mut self.delta, self.stride, self.filter_size);
 
         &self.delta
     }

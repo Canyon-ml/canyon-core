@@ -2,7 +2,7 @@
 // Import Module, Optim, gT. 
 use super::*;
 
-pub struct Conv<'b> {
+pub struct Conv {
     /// The Output for this Layer.
     /// - rows: ((input.rows - padding * 2) - kernel.rows + 1) / stride
     /// - cols: ((input.cols - padding * 2) - kernel.cols + 1) / stride
@@ -11,7 +11,7 @@ pub struct Conv<'b> {
     output: Tensor,
 
     /// The Output of the Previous Layer
-    input: &'b Tensor,
+    input: Tensor,
 
     /// The Kernel for this Layer.
     /// Contains multiple Filters.
@@ -51,7 +51,7 @@ pub struct Conv<'b> {
     optim: Optim,
 }
 
-impl Conv<'_> {
+impl Conv {
     pub fn new (
         prev: (usize, usize, usize, usize), kernel_size: usize, num_filters: usize, 
         padding: usize, stride: usize, optim: Optim
@@ -62,7 +62,7 @@ impl Conv<'_> {
                 ((prev.1 - padding * 2) - kernel_size + 1) / stride,
                 kernel_size * kernel_size * prev.2, prev.3
             ),
-            input: TEMP, 
+            input: TEMP.clone(), 
             del_w: Tensor::new(kernel_size, kernel_size, prev.2, prev.3),
             del_i: Tensor::new(prev.0, prev.1, prev.2, prev.3),
             kernel: Tensor::new_random(kernel_size, kernel_size, prev.2, num_filters, (-0.3, 0.3)),
@@ -72,10 +72,10 @@ impl Conv<'_> {
     }
 }
 
-impl<'b, 'a: 'b> Module<'a> for Conv<'b> {
-    fn forward  (&mut self, input: &'a Tensor) -> &Tensor {
+impl Module for Conv {
+    fn forward  (&mut self, input: &Tensor) -> &Tensor {
         // Set the self.input variable for use next time
-        self.input = input;
+        self.input = input.clone();
 
         // Convolve across the Input with the Kernel into Output
         Tensor::convolve(&input, &mut self.output, &self.kernel, self.stride, self.padding, 1);

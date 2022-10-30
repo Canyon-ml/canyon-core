@@ -16,8 +16,8 @@ impl Tanh {
     }
 }
 
-impl Module<'_> for Tanh {
-    fn forward <'a> (&mut self, input: &'a Tensor) -> &Tensor {
+impl Module for Tanh {
+    fn forward  (&mut self, input: &Tensor) -> &Tensor {
         
         // Compute the Sigmoid of the Input Tensor. ( 1 / 1 + exp^-i )
         // Also compute the Derivative. ( sigmoid(i) * (1 - simgoid(i)) )

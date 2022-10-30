@@ -16,8 +16,8 @@ impl LeakyReLU {
     }
 }
 
-impl Module<'_> for LeakyReLU {
-    fn forward <'a> (&mut self, input: &'a Tensor) -> &Tensor {
+impl Module for LeakyReLU {
+    fn forward  (&mut self, input: &Tensor) -> &Tensor {
         // I: Input
         // O: self.output
         // A: self.aprime
