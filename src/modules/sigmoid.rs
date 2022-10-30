@@ -8,17 +8,10 @@ pub struct Sigmoid {
 }
 
 impl Sigmoid {
-    pub fn new4d (prev_size: (usize, usize, usize, usize)) -> Self {
+    pub fn new (prev: (usize, usize, usize, usize)) -> Self {
         Self {
-            output: Tensor::new(prev_size.0, prev_size.1, prev_size.2, prev_size.3),
-            delta: Tensor::new(prev_size.0, prev_size.1, prev_size.2, prev_size.3),
-        }
-    }
-
-    pub fn new2d (prev_size: (usize, usize)) -> Self {
-        Self {
-            output: Tensor::from_shape((prev_size.0, prev_size.1, 1, 1)),
-            delta: Tensor::from_shape((prev_size.0, prev_size.1, 1, 1)),
+            output: Tensor::new(prev.0, prev.1, prev.2, prev.3),
+            delta: Tensor::new(prev.0, prev.1, prev.2, prev.3),
         }
     }
 }

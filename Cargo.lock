@@ -51,7 +51,7 @@ dependencies = [
 [[package]]
 name = "gtensor"
 version = "0.6.2"
-source = "git+https://github.com/Soul-ML/gtensor.git#427bd850860dce6119d2469b888398047cdfc862"
+source = "git+https://github.com/Soul-ML/gtensor.git#73f0cf93492e930f35e81c41f61569cab0992308"
 dependencies = [
  "bmp",
  "fastrand",
@@ -131,9 +131,9 @@ dependencies = [
 
 [[package]]
 name = "syn"
-version = "1.0.102"
+version = "1.0.103"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3fcd952facd492f9be3ef0d0b7032a6e442ee9b361d4acc2b1d0c4aaa5f613a1"
+checksum = "a864042229133ada95abf3b54fdc62ef5ccabe9515b64717bcb9a1919e59445d"
 dependencies = [
  "proc-macro2",
  "quote",

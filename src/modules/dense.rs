@@ -36,14 +36,17 @@ pub struct Dense<'b> {
 }
 
 impl Dense<'_> {
-    pub fn new (prev_size: usize, this_size: usize, batch_size: usize, optim: Optim) -> Self {
+    /// - prev: (batch_size, prev_size) a.k.a. size of input.
+    /// - size: The number of Neurons in this layer
+    /// - optim: The Optomizer for this layer
+    pub fn new (prev: (usize, usize), size: usize, optim: Optim) -> Self {
         Self {
-            output: Tensor::new_random(batch_size, this_size, 1, 1, (-0.3, 0.3)),
+            output: Tensor::new2d(prev.0, size),
             input: TEMP, // tag 1 - dummy variable for initializing empty references
-            del_w: Tensor::new(prev_size, this_size, 1, 1),
-            del_i: Tensor::new(batch_size, prev_size, 1, 1),
-            weight: Tensor::new(prev_size, this_size, 1, 1),
-            bias: Tensor::new_random(1, this_size, 1, 1, (-0.3, 0.3)),
+            del_w: Tensor::new2d(prev.1, size),
+            del_i: Tensor::new2d(prev.0, prev.1),
+            weight: Tensor::new2d(prev.1, size),
+            bias: Tensor::new2d(1, size),
             optim
         }
     }

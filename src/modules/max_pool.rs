@@ -21,14 +21,14 @@ pub struct MaxPool<'b> {
 }
 
 impl MaxPool<'_> {
-    pub fn new (prev_size: (usize, usize, usize), filter_size: usize, stride: usize, batch_size: usize) -> Self {
+    pub fn new (prev: (usize, usize, usize, usize), filter_size: usize, stride: usize) -> Self {
         Self {
             output: Tensor::new(
-                (prev_size.0 - (filter_size - 1)) / stride,
-                (prev_size.1 - (filter_size - 1)) / stride,
-                prev_size.2, batch_size
+                (prev.0 - (filter_size - 1)) / stride,
+                (prev.1 - (filter_size - 1)) / stride,
+                prev.2, prev.3
             ),
-            delta: Tensor::new(prev_size.0, prev_size.1, prev_size.2, batch_size),
+            delta: Tensor::new(prev.0, prev.1, prev.2, prev.3),
             input: TEMP, stride, filter_size,
         }
     }

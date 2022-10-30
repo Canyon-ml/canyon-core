@@ -7,10 +7,10 @@ pub struct Flatten {
 }
 
 impl Flatten {
-    pub fn new (prev_size: (usize, usize, usize), batch_size: usize) -> Self {
+    pub fn new (prev: (usize, usize, usize, usize)) -> Self {
         Self {
-            output: Tensor::new(batch_size, prev_size.0 * prev_size.1 * prev_size.2, 1, 1),
-            delta: Tensor::new(prev_size.0, prev_size.1, prev_size.2, batch_size),
+            output: Tensor::new(prev.3, prev.0 * prev.1 * prev.2, 1, 1),
+            delta: Tensor::new(prev.0, prev.1, prev.2, prev.3),
         }
     }
 }

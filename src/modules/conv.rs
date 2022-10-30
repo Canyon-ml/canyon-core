@@ -53,20 +53,20 @@ pub struct Conv<'b> {
 
 impl Conv<'_> {
     pub fn new (
-        prev_size: (usize, usize, usize), kernel_size: usize, num_filters: usize, 
-        batch_size: usize, padding: usize, stride: usize, optim: Optim
+        prev: (usize, usize, usize, usize), kernel_size: usize, num_filters: usize, 
+        padding: usize, stride: usize, optim: Optim
     ) -> Self {
         Self {
             output: Tensor::new(
-                ((prev_size.0 - padding * 2) - kernel_size + 1) / stride,
-                ((prev_size.1 - padding * 2) - kernel_size + 1) / stride,
-                kernel_size * kernel_size * prev_size.2, batch_size
+                ((prev.0 - padding * 2) - kernel_size + 1) / stride,
+                ((prev.1 - padding * 2) - kernel_size + 1) / stride,
+                kernel_size * kernel_size * prev.2, prev.3
             ),
             input: TEMP, 
-            del_w: Tensor::new(kernel_size, kernel_size, prev_size.2, batch_size),
-            del_i: Tensor::new(prev_size.0, prev_size.1, prev_size.2, batch_size),
-            kernel: Tensor::new_random(kernel_size, kernel_size, prev_size.2, num_filters, (-0.3, 0.3)),
-            bias: Tensor::new_random(1, 1, prev_size.2, 1, (-0.3, 0.3)),
+            del_w: Tensor::new(kernel_size, kernel_size, prev.2, prev.3),
+            del_i: Tensor::new(prev.0, prev.1, prev.2, prev.3),
+            kernel: Tensor::new_random(kernel_size, kernel_size, prev.2, num_filters, (-0.3, 0.3)),
+            bias: Tensor::new_random(1, 1, prev.2, 1, (-0.3, 0.3)),
             stride, padding, optim
         }
     }
