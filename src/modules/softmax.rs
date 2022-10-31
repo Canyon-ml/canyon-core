@@ -23,17 +23,15 @@ impl Module for Softmax {
         for batch in 0..input.rows {
             let mut sum: f32 = 0.0;
             for col in 0..input.cols {
-                sum += input[(batch, col)]
+                self.output[(batch, col)] = f32::exp(input[(batch, col)]);
+                sum += self.output[(batch, col)];
             }
 
             for col in 0..input.cols {
-                self.output[(batch, col)] = input[(batch, col)] / sum;
+                self.output[(batch, col)] = self.output[(batch, col)] / sum;
                 self.delta[(batch, col)] = self.output[(batch, col)] * (1.0 - self.output[(batch, col)]);
             }
         }
-
-        #[cfg(feature = "debug")]
-        println!("output of softmax: {:?}", self.output.data);
 
         &self.output
     }
