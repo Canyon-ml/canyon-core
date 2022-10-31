@@ -30,6 +30,9 @@ impl Module for ReLU {
                 *o = 0.0; *a = 0.0;
             }
         }
+
+        #[cfg(feature = "debug")]
+        println!("output of ReLU {:?}", self.output.data);
         
         &self.output
     }
