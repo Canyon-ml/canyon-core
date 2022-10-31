@@ -28,9 +28,13 @@ impl Module for Softmax {
 
             for col in 0..input.cols {
                 self.output[(batch, col)] = input[(batch, col)] / sum;
-                self.delta[(batch, col)]= self.output[(batch, col)] * (1.0 - self.output[(batch, col)]);
+                self.delta[(batch, col)] = self.output[(batch, col)] * (1.0 - self.output[(batch, col)]);
             }
         }
+
+        #[cfg(feature = "debug")]
+        println!("output of softmax: {:?}", self.output.data);
+
         &self.output
     }
 

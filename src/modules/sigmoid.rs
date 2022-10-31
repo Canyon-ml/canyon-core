@@ -28,6 +28,9 @@ impl Module for Sigmoid {
             *d = *o * (1.0 - *o);
         }
 
+        #[cfg(feature = "debug")]
+        println!("output of Sigmoid: {:?}", self.output.data);
+
         &self.output
     }
 
