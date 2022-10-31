@@ -40,7 +40,25 @@ impl Dense {
     /// - prev: (batch_size, prev_size) a.k.a. size of input.
     /// - size: The number of Neurons in this layer
     /// - optim: The Optomizer for this layer
+   #[cfg(not(feature = "debug"))]
     pub fn new (prev: (usize, usize), size: usize, optim: Optim) -> Self {
+        Self {
+            output: Tensor::new2d(prev.0, size),
+            input: TEMP.clone(), // tag 1 - dummy variable for initializing empty references
+            del_w: Tensor::new2d(prev.1, size),
+            del_i: Tensor::new2d(prev.0, prev.1),
+            weight: Tensor::new2d(prev.1, size),
+            bias: Tensor::new2d(1, size),
+            optim
+        }
+    }
+
+    #[cfg(feature = "debug")]
+    pub fn new (prev: (usize, usize), size: usize, optim: Optim) -> Self {
+
+        println!("{} Dense Layer with prev: ({}, {}), size: {} \n",
+            format!("Yellow").yellow().bold(), prev.0, prev.1, size);
+
         Self {
             output: Tensor::new2d(prev.0, size),
             input: TEMP.clone(), // tag 1 - dummy variable for initializing empty references
@@ -96,8 +114,8 @@ impl Module for Dense {
 
         // check if input cols is the same as weight rows
         if input.cols != self.weight.rows {
-            eprintln!("Dense Layer Error: self.input.cols != self.weight.rows. Input cols: {}, weight rows: {}, dense layer size: {}", 
-                input.cols, self.weight.rows, self.output.cols);
+            eprintln!("{} self.input.cols != self.weight.rows. Input cols: {}, weight rows: {}, dense layer size: {} \n", 
+                format!("Dense Layer Error").red().bold(), input.cols, self.weight.rows, self.output.cols);
         }
 
         // MatMul the Input Matrix by the Weight Matrix to produce Output
@@ -118,9 +136,9 @@ impl Module for Dense {
         // check if valid for bias optomization
         if self.bias.cols != delta.cols {
             eprintln!(
-                "Dense Layer Error: bias cols != delta cols before optomization.
-                 Bias shape: ({}. {}), Delta shape: ({}, {}), dense layer size: {}",
-                self.bias.rows, self.bias.cols, delta.rows, delta.cols, self.output.cols);
+                "{} bias cols != delta cols before optomization.
+                 Bias shape: ({}. {}), Delta shape: ({}, {}), dense layer size: {} \n",
+                 format!("Dense Layer Error").red().bold(), self.bias.rows, self.bias.cols, delta.rows, delta.cols, self.output.cols);
         }
 
         // Optomize the bias with the fresh delta
@@ -135,9 +153,9 @@ impl Module for Dense {
         // Check if valid for weight optomization
         if self.weight.same_shape(&self.del_w) {
             eprintln!(
-                "Dense Layer Error: Weight shape != Del_w shape before optomization.
-                Weight shape: ({}, {}), delta shape: ({}, {}), dense layer size: {}",
-                self.weight.rows, self.weight.cols, self.del_w.rows, self.del_w.cols, self.output.cols)
+                "{} Dense Layer Error: Weight shape != Del_w shape before optomization.
+                Weight shape: ({}, {}), delta shape: ({}, {}), dense layer size: {} \n",
+                format!("Dense Layer Error").red().bold(), self.weight.rows, self.weight.cols, self.del_w.rows, self.del_w.cols, self.output.cols)
         }
 
         // Pass the weight tensor and delta for it to the optomizer
@@ -146,9 +164,9 @@ impl Module for Dense {
         // Check if del_i is actually the same shape as the input
         if !self.del_i.same_shape(&self.input) {
             eprintln!(
-                "Dense Layer Error: del_i and Input are not the same shape!
-                del_i shape: ({}, {}), input shape: ({}, {})",
-                self.del_i.rows, self.del_i.cols, self.input.rows, self.input.cols);
+                "{} Dense Layer Error: del_i and Input are not the same shape!
+                del_i shape: ({}, {}), input shape: ({}, {}) \n",
+                format!("Dense Layer Error").red().bold(), self.del_i.rows, self.del_i.cols, self.input.rows, self.input.cols);
         }
 
         // Return del_i to be used as delta in next module

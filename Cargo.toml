@@ -8,4 +8,5 @@ default = []
 debug = []
 
 [dependencies]
+colored = "2.0.0"
 gtensor = { git = "https://github.com/Soul-ML/gtensor.git" }

@@ -1,6 +1,9 @@
 
 use std::rc::Rc;
 
+#[cfg(feature = "debug")]
+use colored::Colorize;
+
 // - gTensor Includes - //
 use gt::Tensor;
 
