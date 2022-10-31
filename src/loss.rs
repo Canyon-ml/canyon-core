@@ -43,9 +43,9 @@ impl Loss {
             Loss::MSE => {
                 for batch in 0..output.rows {
                     for col in 0..output.cols {
-                        loss += f32::powi(target[(batch, col)] - output[(batch, col)], 2);
+                        loss += f32::powi(output[(batch, col)] - target[(batch, col)], 2);
                         // delta = -2 * (target - output)
-                        delta[(batch, col)] = -2.0 * (output[(batch, col)] - target[(batch, col)]);
+                        delta[(batch, col)] = -2.0 * (target[(batch, col)] - output[(batch, col)]);
                     }
                 }
             },
