@@ -85,9 +85,6 @@ impl Module for Dense {
         // For each Neuron, add the base of the line computed.
         Tensor::add(&mut self.output, &self.bias);
 
-        #[cfg(feature = "debug")]
-        println!("output of Dense: {:?}", self.output.data);
-
         // Return our output so it can be used by the next layer.
         &self.output
     }
@@ -128,6 +125,8 @@ impl Module for Dense {
         // Add the Bias to the Output Matrix
         // For each Neuron, add the base of the line computed.
         Tensor::add(&mut self.output, &self.bias);
+
+        println!("output of Dense: {:?}", self.output.data);
 
         // Return our output so it can be used by the next layer.
         &self.output
