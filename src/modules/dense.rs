@@ -151,7 +151,7 @@ impl Module for Dense {
         Tensor::multiply(false, &delta, true,&mut self.weight, &mut self.del_i);
 
         // Check if valid for weight optomization
-        if self.weight.same_shape(&self.del_w) {
+        if !self.weight.same_shape(&self.del_w) {
             eprintln!(
                 "{} Dense Layer Error: Weight shape != Del_w shape before optomization.
                 Weight shape: ({}, {}), delta shape: ({}, {}), dense layer size: {} \n",
