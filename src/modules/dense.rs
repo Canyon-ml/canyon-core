@@ -57,7 +57,7 @@ impl Dense {
     pub fn new (prev: (usize, usize), size: usize, optim: Optim) -> Self {
 
         println!("{} Dense Layer with prev: ({}, {}), size: {} \n",
-            format!("Yellow").yellow().bold(), prev.0, prev.1, size);
+            format!("Initialized").yellow().bold(), prev.0, prev.1, size);
 
         Self {
             output: Tensor::new2d(prev.0, size),
