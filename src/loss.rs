@@ -50,7 +50,15 @@ impl Loss {
                 }
             },
 
-            Loss::CrossEntropy => todo!(),
+            Loss::CrossEntropy => {
+                for batch in 0..output.rows {
+                    for col in 0..output.cols {
+                        loss += -(target[(batch, col)] * f32::log10(output[(batch, col)]) + (1.0 - target[(batch, col)]) * f32::log10(1.0 - output[(batch, col)]));
+                        
+                        delta[(batch, col)] = (target[(batch, col)] - output[(batch, col)]);
+                    }
+                }
+            },
             Loss::Hinge => todo!(),
             Loss::Huber => todo!(),
             Loss::KullbackLeibler => todo!(),
