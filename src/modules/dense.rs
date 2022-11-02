@@ -44,7 +44,7 @@ impl Dense {
     pub fn new (prev: (usize, usize), size: usize, optim: Optim) -> Self {
         Self {
             output: Tensor::new2d(prev.0, size),
-            input: TEMP.clone(), // tag 1 - dummy variable for initializing empty references
+            input: Tensor::new2d(prev.0, prev.1),
             del_w: Tensor::new2d(prev.1, size),
             del_i: Tensor::new2d(prev.0, prev.1),
             weight: Tensor::new2d(prev.1, size),
@@ -75,7 +75,7 @@ impl Module for Dense {
     #[cfg(not(feature = "debug"))]
     fn forward (&mut self, input: &Tensor) -> &Tensor{
         // Clone the input for use in backwards step
-        self.input = input.clone();
+        Tensor::copy(&input, &mut self.input);
 
         // MatMul the Input Matrix by the Weight Matrix to produce Output
         // (For each Neuron compute a line of n dimensions)
