@@ -24,7 +24,7 @@ impl Module for Sigmoid {
         for ((i, o), d) in 
             input.iter().zip(self.output.iter_mut()).zip(self.delta.iter_mut()) {
 
-            *o = 1.0 / 1.0 + f32::exp(-*i);
+            *o = 1.0 / (1.0 + f32::exp(-*i));
             *d = *o * (1.0 - *o);
         }
 
