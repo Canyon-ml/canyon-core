@@ -21,11 +21,9 @@ impl Module for Sigmoid {
         
         // Compute the Sigmoid of the Input Tensor. ( 1 / 1 + exp^-i )
         // Also compute the Derivative. ( sigmoid(i) * (1 - simgoid(i)) )
-        for ((i, o), d) in 
-            input.iter().zip(self.output.iter_mut()).zip(self.delta.iter_mut()) {
-
-            *o = 1.0 / (1.0 + f32::exp(-*i));
-            *d = *o * (1.0 - *o);
+        for i in 0..input.len() {
+            self.output[i] = 1.0 / (1.0 + f32::exp(-input[i]));
+            self.delta[i] = self.output[i] * (1.0 - self.output[i]);
         }
 
         &self.output
