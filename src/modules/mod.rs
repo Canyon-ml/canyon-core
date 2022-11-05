@@ -40,8 +40,3 @@ pub use leakyrelu::LeakyReLU;
 pub use elu::ELU;
 pub use max_pool::MaxPool;
 pub use flatten::Flatten;
-
-/// A Dummy Variable used to initialize empty references
-static TEMP: Tensor = Tensor { 
-    data: Vec::new(), rows: 1, cols: 1, channels: 1, duration: 1
-};

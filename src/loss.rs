@@ -45,7 +45,7 @@ impl Loss {
                     for col in 0..output.cols {
                         loss += f32::powi(target[(batch, col)] - output[(batch, col)], 2);
                         // delta = -2 * (target - output)
-                        delta[(batch, col)] = 2.0 * (output[(batch, col)] - target[(batch, col)]);
+                        delta[(batch, col)] = 2.0 * (target[(batch, col)] - output[(batch, col)]);
                     }
                 }
             },
@@ -55,7 +55,7 @@ impl Loss {
                     for col in 0..output.cols {
                         loss += -(f32::log(output[(batch, col)], target[(batch, col)]) + f32::log(1.0 - output[(batch, col)], 1.0 - target[(batch, col)]));
                         
-                        delta[(batch, col)] = (target[(batch, col)] - output[(batch, col)]);
+                        delta[(batch, col)] = target[(batch, col)] - output[(batch, col)];
                     }
                 }
             },

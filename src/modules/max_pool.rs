@@ -29,7 +29,8 @@ impl MaxPool {
                 prev.2, prev.3
             ),
             delta: Tensor::new(prev.0, prev.1, prev.2, prev.3),
-            input: TEMP.clone(), stride, filter_size,
+            input: Tensor::new(prev.0, prev.1, prev.2, prev.3), 
+            stride, filter_size,
         }
     }
 }

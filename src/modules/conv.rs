@@ -62,7 +62,7 @@ impl Conv {
                 ((prev.1 - padding * 2) - kernel_size + 1) / stride,
                 kernel_size * kernel_size * prev.2, prev.3
             ),
-            input: TEMP.clone(), 
+            input: Tensor::new(prev.0, prev.1, prev.2, prev.3), 
             del_w: Tensor::new(kernel_size, kernel_size, prev.2, prev.3),
             del_i: Tensor::new(prev.0, prev.1, prev.2, prev.3),
             kernel: Tensor::new_random(kernel_size, kernel_size, prev.2, num_filters, (-0.3, 0.3)),
